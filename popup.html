@@ -6,38 +6,73 @@
     body {
       overflow: hidden;
       margin: 10px;
-      padding: 0 0 30px 0;
+      padding: 10px;
       background: white;
       font-family: Arial;
       font-size: 0.8em;
       width: 500px;
-      height: 400px;
     }
     #projects {
     background-color: #eff2f3;
-    height: 280px;
-    margin-bottom: 10px;
+    height: 300px;
+    margin: 10px 0 10px 0;
+    padding: 10px;
+    overflow:auto;
     }
     .grey_t {
     color: grey;
     font-size: 0.75em;
     }
     ul {
-    padding: 20px 10px 10px 20px;
+    padding: 10px 10px 0 10px;
+    margin: 0;
     list-style: none;
     }
-    li {     margin-bottom: 10px;
+    li:first-child {
+    padding-top:0;
+    }
+    li {     
+    margin-bottom: 10px;
+    padding: 4px;
     }
     li a {
-    font-size: 1.7em;
+    font-size: 1.6em;
     text-decoration:none;
     }
+    #home-link {
+    margin-left: 10px;
+    margin-top: 10px;
+    }
+    .touch-blurb {
+    cursor:pointer;
+    }
+    .touch-blurb:hover {
+    background-color: #cccccc;
+    }
+    h3 {
+    margin: 0 0 3px 0;
+    }
+    .thumb {
+    width: 90px;
+    float: left;
+	margin-right: 5px;
+	padding: 6px;
+    }
+    input[name="proposalID"] {
+    visibility:hidden;
+    }
+    .selected {
+    background-color: rgba(238, 113, 34, 0.3);
+    }
+
     </style>
     <script src="popup.js"></script>
   	<script src="parse-1.1.8.min.js"></script>
+  	<script src="jquery-1.8.2.min.js"></script>
 
   </head>
   <body>
+  <img src="logo.gif"/>
   <div id="projects">
   <ul>
   <li><a class="category" href="http://api.donorschoose.org/common/json_feed.html?subject1=-1">Music & The Arts</a></li>
@@ -61,7 +96,8 @@
   <br/>
   <span class="grey_t"> Ex. 10 min, 1 hour, 3 days, etc.</span>
   <br/>
-  
+  <input type="text" name="proposalID">
+
   <button type="submit> name="Submit">Send Your Message</button>
 
 	

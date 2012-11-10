@@ -1,75 +1,71 @@
-function executeMailto(subject, body, cc) {
+function executeMailto(subject, body, pledge_id, amount, time_limit) {
+
     // Custom URL's (such as opening mailto in Gmail tab) should have a
     // separate tab to avoid clobbering the page you are on.
-    
     var amount = document.querySelector('input[name="amount"]').value
     var expiration = document.querySelector('input[name="expiration"]').value
-  	var default_msg = "I just pledged " + amount + " using Donor's Choose. Reply to me within " + expiration + " or you are a bad person who hates children."
-  	var action_url = "mailto:?cc=" + cc + "?subject=" + subject + "&body=" + default_msg + "body"
-  	
-    //  action_url += "subject=" + encodeURIComponent(subject) + "&";
-	action_url += "cc=answermesent" + encodeURIComponent("+" + cc) + "@answerme.mailgun.org";
+  	var default_msg = "I just pledged $" + amount + " using Donor's Choose. Reply to me within " + time_limit + " or you are a bad person who hates children."
+  	var action_url = "mailto:?cc=pledge-" + pledge_id + "@donorschoose.alecturnbull.com?subject=" + subject + "&body=" + default_msg + "body"
 
     chrome.tabs.create({ url: action_url });
-
 }
-
-function saveToParse() {
-expirationText = document.querySelector('input[name="expiration"]').value;
-if (/sec/i.test(expirationText)) {
-	seconds =	parseInt(expirationText.replace(/[^0-9\.]/g, ''));
-}
-
-if (/min/i.test(expirationText)) {
-	minutes =	parseInt(expirationText.replace(/[^0-9\.]/g, ''));
-	seconds = minutes * 60;
-}
-
-if (/hour/i.test(expirationText)) {
-	hours =	parseInt(expirationText.replace(/[^0-9\.]/g, ''));
-	seconds = hours *60*60;
-}
-
-if (/day/i.test(expirationText)) {
-	days =	parseInt(expirationText.replace(/[^0-9\.]/g, ''));
-	seconds = days *60*60*24;
-}
-
-amount = document.querySelector('input[name="amount"]').value;
-if (!!seconds && !!amount) {
-	var AnswerMe = Parse.Object.extend("AnswerMeObject");
-	var answerMe = new AnswerMe();
-	answerMe.set("lengthToExpiration", seconds)
-	answerMe.set("amount", amount)
-	answerMe.save(null, {
-	  success: function(object) {
-	  
-	executeMailto('', '', object.id);
-
-	  }
-	});
-	return true;
-} else { return false; }
-
-}
-
 
 function click(e) {
-    var done = saveToParse();
+	time_limit = document.querySelector('input[name="expiration"]').value;
+	amount = document.querySelector('input[name="amount"]').value;
+	project_id = document.querySelector('input[name="proposalID"]').value;
+	
+	$.ajax({
+		type: 'POST',
+		url: 'http://donorschoose.alecturnbull.com/pledges.json',
+		data: { 'pledge' : { 'amount' : amount, 
+		'time_limit' : time_limit,
+		'project_id' : project_id
+		} },
+		success: function(data) {
+			var response = $.parseJSON(data);
+			if (response.saved) {
+				executeMailto('', '', response.pledge_id, amount, time_limit)
+			}
+		}
+	});  
+	
+}
+
+function donorChoice(e) {
+	document.querySelector('input[name="proposalID"]').value = e.target.id;
+	$('li').removeClass('selected');
+	$('#' + e.target.id).addClass('selected');
+	
 }
 
 function categoryClick(e) {
-    
+	$('ul').html('');
+	$('#projects').prepend('<a id="home-link" href="" ><<< Categories</a>');
+	$('ul').prepend('<center><img id="loading" src="ajax-loader.gif" /></center>');
+	
+	$.ajax({
+  		url: e.target.href,
+  		success: function(data) {
+    		$('ul').html('');
+    		var proposals = $.parseJSON(data).proposals;
+    		$.each(proposals, function(index) {
+    			$('ul').append('<img class="thumb" src="' + this.imageURL + '"/><li class="touch-blurb" id="' + this.id + '"><h3>' + this.title + '</h3>' + this.shortDescription + 
+    			'<br/><strong>$' + this.costToComplete + ' to go </strong> in ' + this.city + ', ' + this.state + '</li>');
+				});
+		
+				var blurbs = document.querySelectorAll('li.touch-blurb')
+				$.each(blurbs, function() { this.addEventListener('click', donorChoice); });
+  		}
+	});  
 }
 
 document.addEventListener('DOMContentLoaded', function () {
   	var submit = document.querySelector('button');
     submit.addEventListener('click', click);
-    var categories = document.querySelectorAll('category');
+    var categories = document.querySelectorAll('.category');
     for (var i=0; i<categories.length; i++) {
-    categories[i].addEventListener('click', categoryClick);
+    	categories[i].addEventListener('click', categoryClick);
     }
-
-    Parse.initialize("lj3R4RuR6sonniWeBXyVsfTfzxH7votc3KLj3aAH", "NoEteCTSDHd5pa1nYGB8xKuODKmQ9XyWYDOTSyCe");    
-
+>>>>>>> Takes out Parse.
 });
