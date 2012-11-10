@@ -67,5 +67,4 @@ document.addEventListener('DOMContentLoaded', function () {
     for (var i=0; i<categories.length; i++) {
     	categories[i].addEventListener('click', categoryClick);
     }
->>>>>>> Takes out Parse.
 });
