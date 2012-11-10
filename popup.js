@@ -5,7 +5,7 @@ function executeMailto(subject, body, pledge_id, amount, time_limit) {
     var amount = document.querySelector('input[name="amount"]').value
     var expiration = document.querySelector('input[name="expiration"]').value
   	var default_msg = "I just pledged $" + amount + " using Donor's Choose. Reply to me within " + time_limit + " or you are a bad person who hates children."
-  	var action_url = "mailto:?cc=donorschoose-" + pledge_id + "@sendgriddemos.com?subject=" + subject + "&body=" + default_msg + "body"
+  	var action_url = "mailto:?cc=donorschoose-" + pledge_id + "@sendgriddemos.com&subject=" + subject + "&body=" + default_msg + "body"
 
     chrome.tabs.create({ url: action_url });
 }
@@ -28,9 +28,9 @@ function click(e) {
 		'project_id' : project_id
 		} },
 		success: function(data) {
-			var response = $.parseJSON(data);
-			if (response.saved) {
-				executeMailto('', '', response.pledge_id, amount, time_limit)
+			console.log(data.saved);
+			if (data.saved) {
+				executeMailto('', '', data.pledge_id, amount, time_limit)
 			}
 		}
 	});  
@@ -38,7 +38,6 @@ function click(e) {
 }
 
 function donorChoice(e) {
-	console.log(e.target);
 	if ($(e.target).hasClass('touch-blurb')) {
 		document.querySelector('input[name="proposalID"]').value = e.target.id;
 		$('li.touch-blurb').removeClass('selected');
