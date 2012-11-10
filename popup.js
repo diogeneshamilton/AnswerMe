@@ -2,8 +2,8 @@ function executeMailto(subject, body, cc) {
     // Custom URL's (such as opening mailto in Gmail tab) should have a
     // separate tab to avoid clobbering the page you are on.
     
-    var amount = document.querySelector('input[name="amount"]')
-    var expiration = document.querySelector('input[name="expiration"]')
+    var amount = document.querySelector('input[name="amount"]').value
+    var expiration = document.querySelector('input[name="expiration"]').value
   	var default_msg = "I just pledged " + amount + " using Donor's Choose. Reply to me within " + expiration + " or you are a bad person who hates children."
   	var action_url = "mailto:?cc=" + cc + "?subject=" + subject + "&body=" + default_msg + "body"
   	
