@@ -4,8 +4,8 @@ function executeMailto(subject, body, pledge_id, amount, time_limit) {
     // separate tab to avoid clobbering the page you are on.
     var amount = document.querySelector('input[name="amount"]').value
     var expiration = document.querySelector('input[name="expiration"]').value
-  	var default_msg = "I just pledged $" + amount + " using Donor's Choose. Reply to me within " + time_limit + " or you are a bad person who hates children."
-  	var action_url = "mailto:?cc=donorschoose-" + pledge_id + "@sendgriddemos.com&subject=" + subject + "&body=" + default_msg + "body"
+  	var default_msg = "I just pledged $" + amount + " using Donors Choose. Reply to me within " + time_limit + " or you will be letting me down, and the children!"
+  	var action_url = "mailto:?cc=donorschoose-" + pledge_id + "@sendgriddemos.com&subject=" + subject + "&body=" + default_msg;
 
     chrome.tabs.create({ url: action_url });
 }
