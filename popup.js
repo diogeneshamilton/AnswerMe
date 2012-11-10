@@ -5,9 +5,14 @@ function executeMailto(subject, body, pledge_id, amount, time_limit) {
     var amount = document.querySelector('input[name="amount"]').value
     var expiration = document.querySelector('input[name="expiration"]').value
   	var default_msg = "I just pledged $" + amount + " using Donor's Choose. Reply to me within " + time_limit + " or you are a bad person who hates children."
-  	var action_url = "mailto:?cc=pledge-" + pledge_id + "@donorschoose.alecturnbull.com?subject=" + subject + "&body=" + default_msg + "body"
+  	var action_url = "mailto:?cc=donorschoose-" + pledge_id + "@sendgriddemos.com?subject=" + subject + "&body=" + default_msg + "body"
 
     chrome.tabs.create({ url: action_url });
+}
+
+function logoClick(e) {
+	var logo_url = "http://www.donorschoose.org/"
+	chrome.tabs.create({ url: logo_url });
 }
 
 function click(e) {
@@ -33,9 +38,16 @@ function click(e) {
 }
 
 function donorChoice(e) {
-	document.querySelector('input[name="proposalID"]').value = e.target.id;
-	$('li').removeClass('selected');
-	$('#' + e.target.id).addClass('selected');
+	console.log(e.target);
+	if ($(e.target).hasClass('touch-blurb')) {
+		document.querySelector('input[name="proposalID"]').value = e.target.id;
+		$('li.touch-blurb').removeClass('selected');
+		$('#' + e.target.id).addClass('selected');
+	} else if ($(e.target).parent().hasClass('touch-blurb')){
+		document.querySelector('input[name="proposalID"]').value = $(e.target).parent().id;
+		$('li.touch-blurb').removeClass('selected');
+		$(e.target).parent().addClass('selected');
+	}
 	
 }
 
@@ -50,12 +62,14 @@ function categoryClick(e) {
     		$('ul').html('');
     		var proposals = $.parseJSON(data).proposals;
     		$.each(proposals, function(index) {
-    			$('ul').append('<img class="thumb" src="' + this.imageURL + '"/><li class="touch-blurb" id="' + this.id + '"><h3>' + this.title + '</h3>' + this.shortDescription + 
+    			$('ul').append('<li class="touch-blurb" id="' + this.id + '"><img class="thumb" src="' + this.imageURL + '"/><h3>' + this.title + '</h3>' + this.shortDescription + 
     			'<br/><strong>$' + this.costToComplete + ' to go </strong> in ' + this.city + ', ' + this.state + '</li>');
 				});
 		
-				var blurbs = document.querySelectorAll('li.touch-blurb')
-				$.each(blurbs, function() { this.addEventListener('click', donorChoice); });
+			var blurbs = document.querySelectorAll('li.touch-blurb')
+			$.each(blurbs, function() { 
+				this.addEventListener('click', donorChoice); 
+			});
   		}
 	});  
 }
@@ -63,6 +77,9 @@ function categoryClick(e) {
 document.addEventListener('DOMContentLoaded', function () {
   	var submit = document.querySelector('button');
     submit.addEventListener('click', click);
+    var logo = document.querySelector('.logo');
+    logo.addEventListener('click', logoClick);
+    
     var categories = document.querySelectorAll('.category');
     for (var i=0; i<categories.length; i++) {
     	categories[i].addEventListener('click', categoryClick);

@@ -2,14 +2,15 @@
 <html>
   <head>
     <title>Set Answer Me!</title>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
     <style>
     body {
       overflow: hidden;
       margin: 10px;
       padding: 10px;
       background: white;
-      font-family: Arial;
-      font-size: 0.8em;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.7em;
       width: 500px;
     }
     #projects {
@@ -19,14 +20,20 @@
     padding: 10px;
     overflow:auto;
     }
+	.logo {
+	cursor:pointer;
+	}
     .grey_t {
     color: grey;
-    font-size: 0.75em;
+    font-size: 0.7em;
     }
     ul {
-    padding: 10px 10px 0 10px;
+    padding: 10px 0 0 0;
     margin: 0;
     list-style: none;
+    }
+    a {
+    text-decoration:none;
     }
     li:first-child {
     padding-top:0;
@@ -36,8 +43,7 @@
     padding: 4px;
     }
     li a {
-    font-size: 1.6em;
-    text-decoration:none;
+    font-size: 1.5em;
     }
     #home-link {
     margin-left: 10px;
@@ -45,6 +51,7 @@
     }
     .touch-blurb {
     cursor:pointer;
+    min-height: 102px;
     }
     .touch-blurb:hover {
     background-color: #cccccc;
@@ -58,10 +65,7 @@
 	margin-right: 5px;
 	padding: 6px;
     }
-    input[name="proposalID"] {
-    visibility:hidden;
-    }
-    .selected {
+    .selected, .selected:hover {
     background-color: rgba(238, 113, 34, 0.3);
     }
 
@@ -72,7 +76,7 @@
 
   </head>
   <body>
-  <img src="logo.gif"/>
+  <img class="logo" src="logo.gif"/>
   <div id="projects">
   <ul>
   <li><a class="category" href="http://api.donorschoose.org/common/json_feed.html?subject1=-1">Music & The Arts</a></li>
@@ -85,21 +89,20 @@
 
   </ul>
   </div>
-  
-  <strong>Amount</strong>
+  <div id="donor_form">
+  <strong>Donation</strong>
   <br/>
   <input type="text" name="amount">
   	<br/>
-  <strong>Expiration</strong> 
+  <strong>Time Limit</strong> 
   <br/>
   <input type="text" name="expiration">
   <br/>
   <span class="grey_t"> Ex. 10 min, 1 hour, 3 days, etc.</span>
   <br/>
-  <input type="text" name="proposalID">
+  <input type="hidden" name="proposalID">
 
   <button type="submit> name="Submit">Send Your Message</button>
-
-	
+  </div>
   </body>
 </html>
