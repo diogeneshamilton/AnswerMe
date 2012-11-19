@@ -2,13 +2,13 @@
   "name": "Reply For All",
   "description": "This extension adds a button that allows you to donate to your favorite school while at the same time encouraging your friends and you to be more productive.",
   "version": "1.0",
-  "icons": { "128": "mail_128x128.png" },
+  "icons": { "128": "replyforall.png" },
   "permissions": [
     "tabs", "http://*/*", "https://*/*"
   ],
   "browser_action": {
     "default_title": "Make a difference",
-    "default_icon": "email_16x16.png",
+    "default_icon": "replyforallnotext.png",
     "default_popup": "popup.html"
   },
 

@@ -32,8 +32,12 @@
     margin: 0;
     list-style: none;
     }
-    a {
+    a, a:visited {
     text-decoration:none;
+    color: #668cd9;
+    }
+    a:hover {
+    color: #675dd8;
     }
     input[name="expiration"] {
     margin-left: 8px;
@@ -72,7 +76,15 @@
     .selected, .selected:hover {
     background-color: rgba(238, 113, 34, 0.3);
     }
-
+    #explanation {
+    float:right;
+    font-size: 1.2em;
+    margin-top: 5px;
+    width: 280px;
+    }
+	#donor_form {
+	width: 170px;
+	}
     </style>
     <script src="popup.js"></script>
   	<script src="jquery-1.8.2.min.js"></script>
@@ -92,6 +104,13 @@
 
   </ul>
   </div>
+  
+  <div id="explanation">
+    <img class="rfalogo" src="replyforall.png"/>
+<br/>
+  Fighting email laziness with good.
+  </div>
+  
   <div id="donor_form">
   <strong>Donation Amount</strong>
   <br/>
@@ -101,7 +120,8 @@
   <br/>
    <input type="text" name="expiration">
   <br/>
-  <span class="grey_t"> Ex. 10 min, 1 hour, 3 days, etc.</span>
+  <span class="grey_t"> Ex. 10 min, 1 hour, 3 days, etc.
+  It doesn't go through unless the recipient answers within the allotted time!</span>
   <br/>
   <input type="hidden" name="proposalID">
 
